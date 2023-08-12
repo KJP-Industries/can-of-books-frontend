@@ -20,7 +20,9 @@ This app retrieves a list of books from MongoDB via Express, and displays them i
 
 ## Architecture
 Front-end: React
+
 Back-end: Express
+
 Database: MongoDB
 
 ## Change Log
