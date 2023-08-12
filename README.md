@@ -9,6 +9,7 @@ Books are life-changing. They have the power to enlighten, educate, entertain, h
 # Can of Books
 
 **Author**: Kyle, Josh, Peter
+
 **Version**: 1.0.0 
 
 ## Overview
