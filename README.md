@@ -19,6 +19,7 @@ This app retrieves a list of books from MongoDB via Express, and displays them i
 <!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
 
 ## Architecture
+
 Front-end: React
 
 Back-end: Express
