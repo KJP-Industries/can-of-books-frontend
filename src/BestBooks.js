@@ -12,7 +12,7 @@ class BestBooks extends React.Component {
   }
 
   componentDidMount() {
-    const url = `${process.env.REACT_APP_SERVER_URL || "https://can-of-books-backend-g0qc.onrender.com"}/books`;
+    const url = `${process.env.REACT_APP_SERVER_URL}/books`;
     axios
       .get(url)
       .then(({ data: books }) => {
