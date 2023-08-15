@@ -10,9 +10,20 @@ class BestBooks extends React.Component {
     super(props);
     this.state = {
       books: [],
+      shouldShowModal: false
     };
   }
 
+  addBook = async (newBook) => {
+    const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
+    const response = await axios.post(postUrl, {
+      title: newBook.title,
+      description: newBook.description,
+      status: newBook.status
+    });
+    this.setState({ books: [...this.state.books, response] });
+  };
+  
   toggleModal = () => {
     const { shouldShowModal } = this.state;
     console.log('button test');
@@ -37,7 +48,7 @@ class BestBooks extends React.Component {
         {this.state.books.length > 0 ? (
           <Carousel wrap touch pause="hover" interval={5000}>
             {this.state.books.map((book, idx) => (
-              <Carousel.Item key={book.title}>
+              <Carousel.Item key={book._id}>
                 <Book book={book} idx={idx} />
               </Carousel.Item>
             ))}
@@ -45,8 +56,11 @@ class BestBooks extends React.Component {
         ) : (
           <h3>{'No Books Found :('}</h3>
         )}
-        <BookModal shouldShowModal={this.state.shouldShowModal} modalTitle={ 'Add Book' }
+        <BookModal 
+          shouldShowModal={this.state.shouldShowModal} 
+          modalTitle={ 'Add Book' }
           toggleModal={ this.toggleModal }
+          addBook={ this.addBook }
         />
         <NewButton toggleModal={ this.toggleModal } btnText={ 'Add Book' } />
       </>

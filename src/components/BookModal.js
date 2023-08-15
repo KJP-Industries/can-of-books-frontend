@@ -4,15 +4,28 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 class BookModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      displayError: false,
+      apiError: ''
+    };
+  }
 
   handleClose = () => {
-    // set shouldShowModal to false
     this.props.toggleModal();
-    console.log('Modal closed.');
   };
 
-  handleSubmit = async () => {
-
+  handleSubmit = async (e) => {
+    e.preventDefault();
+    this.setState({ displayError: false, apiError: '' });
+    const form = e.target;
+    this.props.addBook({
+      title: form.bookTitle.value,
+      description: form.bookDesc.value,
+      status: form.bookStatus.value
+    });
+    this.props.toggleModal();
   };
 
   render() {
@@ -24,14 +37,27 @@ class BookModal extends React.Component {
           <Modal.Title>{ modalTitle }</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form onSubmit={ (e) => { this.handleSubmit(e); }}>
+            <Form.Group className="mb-3" controlId="bookTitle">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter title" />
+              <Form.Control 
+                type="text" 
+                placeholder="Enter title" 
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="bookDesc">
               <Form.Label>Description</Form.Label>
-              <Form.Control type="text" placeholder="Enter description" />
+              <Form.Control 
+                type="text" 
+                placeholder="Enter description"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="bookStatus">
               <Form.Label>Status</Form.Label>
-              <Form.Control type="text" placeholder="Enter status" />
+              <Form.Control 
+                type="text" 
+                placeholder="Enter status" 
+              />
             </Form.Group>
   
             <Button variant="primary" type="submit">Add Book</Button>
