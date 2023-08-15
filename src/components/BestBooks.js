@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import Button from 'react-bootstrap/Button';
+import NewButton from './NewButton';
 
 import Book from './Book';
 
@@ -12,6 +12,12 @@ class BestBooks extends React.Component {
       books: [],
     };
   }
+
+  toggleModal = () => {
+    const { shouldShowModal } = this.state;
+    console.log('button test');
+    this.setState({ shouldShowModal: !shouldShowModal });
+  };
 
   componentDidMount() {
     const url = `${process.env.REACT_APP_SERVER_URL}/books`;
@@ -39,7 +45,7 @@ class BestBooks extends React.Component {
         ) : (
           <h3>{'No Books Found :('}</h3>
         )}
-        <Button hidden>Add your favorite book</Button>
+        <NewButton toggleModal={ this.toggleModal } btnText={ "Add Book" } />
       </>
     );
   }
