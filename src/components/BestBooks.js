@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import NewButton from './NewButton';
-
+import BookModal from './BookModal';
 import Book from './Book';
 
 class BestBooks extends React.Component {
@@ -45,7 +45,10 @@ class BestBooks extends React.Component {
         ) : (
           <h3>{'No Books Found :('}</h3>
         )}
-        <NewButton toggleModal={ this.toggleModal } btnText={ "Add Book" } />
+        <BookModal shouldShowModal={this.state.shouldShowModal} modalTitle={ 'Add Book' }
+          toggleModal={ this.toggleModal }
+        />
+        <NewButton toggleModal={ this.toggleModal } btnText={ 'Add Book' } />
       </>
     );
   }
