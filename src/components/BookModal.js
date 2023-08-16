@@ -40,26 +40,26 @@ class BookModal extends React.Component {
           <Form onSubmit={ (e) => { this.handleSubmit(e); }}>
             <Form.Group className="mb-3" controlId="bookTitle">
               <Form.Label>Title</Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Enter title" 
+              <Form.Control
+                type="text"
+                placeholder="Enter title"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="bookDesc">
               <Form.Label>Description</Form.Label>
-              <Form.Control 
-                type="text" 
+              <Form.Control
+                type="text"
                 placeholder="Enter description"
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="bookStatus">
               <Form.Label>Status</Form.Label>
-              <Form.Control 
-                type="text" 
-                placeholder="Enter status" 
+              <Form.Control
+                type="text"
+                placeholder="Enter status"
               />
             </Form.Group>
-  
+
             <Button variant="primary" type="submit">Add Book</Button>
             <Button variant="secondary" onClick={ handleClose }>Close</Button>
           </Form>

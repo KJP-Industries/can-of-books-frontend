@@ -16,17 +16,20 @@ class BestBooks extends React.Component {
 
   addBook = async (newBook) => {
     const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
-    const response = await axios.post(postUrl, {
+    axios.post(postUrl, {
       title: newBook.title,
       description: newBook.description,
       status: newBook.status
-    });
-    this.setState({ books: [...this.state.books, response] });
+    })
+      .then(data => {
+        this.setState({ books: [...this.state.books, data] });
+      })
+      .catch((err) => console.error(err));
+
   };
-  
+
   toggleModal = () => {
     const { shouldShowModal } = this.state;
-    console.log('button test');
     this.setState({ shouldShowModal: !shouldShowModal });
   };
 
@@ -55,8 +58,8 @@ class BestBooks extends React.Component {
         ) : (
           <h3>{'No Books Found :('}</h3>
         )}
-        <BookModal 
-          shouldShowModal={this.state.shouldShowModal} 
+        <BookModal
+          shouldShowModal={this.state.shouldShowModal}
           modalTitle={ 'Add Book' }
           toggleModal={ this.toggleModal }
           addBook={ this.addBook }
