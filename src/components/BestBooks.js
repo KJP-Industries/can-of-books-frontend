@@ -14,13 +14,9 @@ class BestBooks extends React.Component {
     };
   }
 
-  addBook = async (newBook) => {
+  addBook = (newBook) => {
     const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
-    axios.post(postUrl, {
-      title: newBook.title,
-      description: newBook.description,
-      status: newBook.status
-    })
+    axios.post(postUrl, newBook)
       .then(data => {
         this.setState({ books: [...this.state.books, data] });
       })
