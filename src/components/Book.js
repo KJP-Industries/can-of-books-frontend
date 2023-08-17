@@ -15,7 +15,7 @@ export default class Book extends Component {
           className="w-100"
           fluid
         />
-        <Carousel.Caption>
+        <Carousel.Caption style={{ cursor: 'pointer' }}>
           <h3>{title}</h3>
           <p>{description}</p>
           <h6>{status}</h6>
