@@ -116,8 +116,6 @@ class BestBooks extends React.Component {
           selectedBook={this.state.selectedBook}
           addBook={this.addBook}
           deleteBook={this.deleteBook}
-          errorMsg={this.state.errorMsg}
-          setErrorMsg={this.setErrorMsg}
         />
         <ToastContainer
           className="p-3 mb-5"
