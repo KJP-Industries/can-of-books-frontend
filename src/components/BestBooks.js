@@ -68,12 +68,12 @@ class BestBooks extends React.Component {
         <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
         {this.state.books.length > 0 ? (
           <Carousel wrap touch pause="hover" interval={5000}>
-            {this.state.books.map((book, idx) => (
+            {this.state.books.map((book) => (
               <Carousel.Item
                 key={book._id}
                 onClick={() => this.selectBook(book)}
               >
-                <Book book={book} idx={idx} />
+                <Book book={book} />
               </Carousel.Item>
             ))}
           </Carousel>
