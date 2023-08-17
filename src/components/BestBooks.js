@@ -10,23 +10,46 @@ class BestBooks extends React.Component {
     super(props);
     this.state = {
       books: [],
-      shouldShowModal: false
+      shouldShowModal: false,
+      selectedBook: null,
     };
   }
 
+  selectBook = (selectedBook) => {
+    this.setState({
+      selectedBook,
+      shouldShowModal: Boolean(selectedBook),
+    });
+  };
+
   addBook = (newBook) => {
     const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
-    axios.post(postUrl, newBook)
-      .then(data => {
+    axios
+      .post(postUrl, newBook)
+      .then((data) => {
         this.setState({ books: [...this.state.books, data] });
       })
       .catch((err) => console.error(err));
+  };
 
+  deleteBook = (deleteBook) => {
+    const deleteUrl = `${process.env.REACT_APP_SERVER_URL}/books/${deleteBook._id}`;
+    axios
+      .delete(deleteUrl, deleteBook)
+      .then(() => {
+        const oldBooks = this.state.books;
+        const books = oldBooks.filter((book) => book._id !== deleteBook._id);
+        this.setState({ books });
+      })
+      .catch((err) => console.error(err));
   };
 
   toggleModal = () => {
     const { shouldShowModal } = this.state;
-    this.setState({ shouldShowModal: !shouldShowModal });
+    this.setState({
+      shouldShowModal: !shouldShowModal,
+      selectedBook: this.state.selectedBook ? null : this.state.selectedBook,
+    });
   };
 
   componentDidMount() {
@@ -46,7 +69,10 @@ class BestBooks extends React.Component {
         {this.state.books.length > 0 ? (
           <Carousel wrap touch pause="hover" interval={5000}>
             {this.state.books.map((book, idx) => (
-              <Carousel.Item key={book._id}>
+              <Carousel.Item
+                key={book._id}
+                onClick={() => this.selectBook(book)}
+              >
                 <Book book={book} idx={idx} />
               </Carousel.Item>
             ))}
@@ -56,11 +82,13 @@ class BestBooks extends React.Component {
         )}
         <BookModal
           shouldShowModal={this.state.shouldShowModal}
-          modalTitle={ 'Add Book' }
-          toggleModal={ this.toggleModal }
-          addBook={ this.addBook }
+          modalTitle={'Add Book'}
+          toggleModal={this.toggleModal}
+          selectedBook={this.state.selectedBook}
+          addBook={this.addBook}
+          deleteBook={this.deleteBook}
         />
-        <NewButton toggleModal={ this.toggleModal } btnText={ 'Add Book' } />
+        <NewButton toggleModal={this.toggleModal} btnText={'Add Book'} />
       </>
     );
   }
