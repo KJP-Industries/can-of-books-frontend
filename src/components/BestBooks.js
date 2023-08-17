@@ -16,6 +16,7 @@ class BestBooks extends React.Component {
       shouldShowModal: false,
       modalTitle: '',
       priModalBtnTxt: '',
+      modalFunction: null,
       selectedBook: null,
       errorMsg: null,
     };
@@ -44,7 +45,8 @@ class BestBooks extends React.Component {
     axios
       .post(postUrl, newBook)
       .then((data) => {
-        this.setState({ books: [...this.state.books, data] });
+        console.log(data);
+        this.setState({ books: [...this.state.books, ({data})] });
       })
       .catch(() =>
         this.setErrorMsg(
@@ -53,18 +55,25 @@ class BestBooks extends React.Component {
       );
   };
 
+  removeBookFromState = (id) => {
+    const oldBooks = this.state.books;
+    return oldBooks.filter((book) => book._id !== id);
+  };
+
   updateBook = (updateBook) => {
     const putUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
     axios
       .put(putUrl, updateBook)
       .then((data) => {
-        this.setState({ books: [...this.state.books, data] });
+        const updatedBook = ({data});
+        const cleanBooks = this.removeBookFromState(updatedBook._id);
+        this.setState({ books: [...cleanBooks, updatedBook] });
       })
       .catch(() =>
         this.setErrorMsg(
-          'There was an error adding your book. Please try again.'
+          'There was an error updating your book. Please try again.'
         )
-      );    
+      );
   };
 
   deleteBook = (deleteBook) => {
@@ -72,9 +81,8 @@ class BestBooks extends React.Component {
     axios
       .delete(deleteUrl, deleteBook)
       .then(() => {
-        const oldBooks = this.state.books;
-        const books = oldBooks.filter((book) => book._id !== deleteBook._id);
-        this.setState({ books });
+        const cleanBooks = this.removeBookFromState(deleteBook._id);
+        this.setState({ books: [...cleanBooks] });
       })
       .catch(() =>
         this.setErrorMsg(
@@ -85,20 +93,23 @@ class BestBooks extends React.Component {
 
   toggleModal = ( modalMode ) => {
     const { shouldShowModal, selectedBook } = this.state;
-    let modalTitle, priModalBtnTxt = '';
+    let modalTitle, priModalBtnTxt, modalFunction = null;
     let shouldUpdateBook = false;
     if ( modalMode === 'update' ) {
       modalTitle = 'Update Book';
       priModalBtnTxt = 'Update';
+      modalFunction = this.updateBook;
       shouldUpdateBook = true;
     } else {
       modalTitle = 'Add Book';
       priModalBtnTxt = 'Add';
+      modalFunction = this.addBook;
     }
     this.setState({
       shouldShowModal: !shouldShowModal,
       modalTitle: modalTitle,
       priModalBtnTxt: priModalBtnTxt,
+      modalFunction: modalFunction,
       selectedBook: shouldUpdateBook ? selectedBook : null,
       errorMsg: null,
     });
@@ -143,8 +154,7 @@ class BestBooks extends React.Component {
           priModalBtnTxt={this.state.priModalBtnTxt}
           toggleModal={this.toggleModal}
           selectedBook={this.state.selectedBook}
-          addBook={this.addBook}
-          updateBook={this.updateBook}
+          modalFunction={this.state.modalFunction}
           deleteBook={this.deleteBook}
         />
         <ToastContainer

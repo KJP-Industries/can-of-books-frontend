@@ -16,7 +16,7 @@ class BookModal extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-    this.props.addBook({
+    this.props.modalFunction({
       title: form.bookTitle.value,
       description: form.bookDesc.value,
       status: form.bookStatus.value,
