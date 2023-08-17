@@ -74,19 +74,18 @@ class BookModal extends React.Component {
                 Please enter a status
               </Form.Control.Feedback>
             </Form.Group>
-            <div className="row justify-content-between">
+            <div className="row justify-content-between mt-5">
               <div className="col">
                 <Button
                   variant="primary"
                   type="submit"
-                  className="mt-5 me-2"
+                  className="me-2"
                 >
                   Add Book
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={handleClose}
-                  className="mt-5"
                 >
                   Close
                 </Button>
@@ -97,7 +96,6 @@ class BookModal extends React.Component {
                   type="button"
                   onClick={this.handleDelete}
                   hidden={!selectedBook}
-                  className="mt-5"
                 >
                   Delete Book
                 </Button>
