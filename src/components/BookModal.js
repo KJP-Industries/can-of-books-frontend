@@ -9,12 +9,17 @@ class BookModal extends React.Component {
     super(props);
     this.state = {
       displayError: false,
-      errorMsg: ''
+      errorMsg: '',
     };
   }
 
   handleClose = () => {
     this.props.toggleModal();
+  };
+
+  handleDelete = () => {
+    this.props.deleteBook(this.props.selectedBook);
+    this.handleClose();
   };
 
   handleSubmit = (e) => {
@@ -26,7 +31,7 @@ class BookModal extends React.Component {
         this.props.addBook({
           title: form.bookTitle.value,
           description: form.bookDesc.value,
-          status: form.bookStatus.value
+          status: form.bookStatus.value,
         });
         this.props.toggleModal();
       } else {
@@ -38,19 +43,24 @@ class BookModal extends React.Component {
   };
 
   render() {
-    const { shouldShowModal, modalTitle } = this.props;
+    const { shouldShowModal, modalTitle, selectedBook } = this.props;
     const { handleClose } = this;
     return (
-      <Modal show={ shouldShowModal } onHide={ handleClose }>
+      <Modal show={shouldShowModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{ modalTitle }</Modal.Title>
+          <Modal.Title>{modalTitle}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={ (e) => { this.handleSubmit(e); }}>
+          <Form
+            onSubmit={(e) => {
+              this.handleSubmit(e);
+            }}
+          >
             <Form.Group className="mb-3" controlId="bookTitle">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
+                defaultValue={selectedBook?.title}
                 placeholder="Enter title"
               />
             </Form.Group>
@@ -58,6 +68,7 @@ class BookModal extends React.Component {
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
+                defaultValue={selectedBook?.description}
                 placeholder="Enter description"
               />
             </Form.Group>
@@ -65,16 +76,31 @@ class BookModal extends React.Component {
               <Form.Label>Status</Form.Label>
               <Form.Control
                 type="text"
+                defaultValue={selectedBook?.status}
                 placeholder="Enter status"
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">Add Book</Button>
-            <Button variant="secondary" onClick={ handleClose }>Close</Button>
+            <Button variant="primary" type="submit">
+              Add Book
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              onClick={this.handleDelete}
+              hidden={!selectedBook}
+            >
+              Delete Book
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
           </Form>
-          { this.state.displayError &&
-          <Alert key='1' variant='danger'>Error: { this.state.errorMsg }</Alert>
-          }
+          {this.state.displayError && (
+            <Alert key="1" variant="danger">
+              Error: {this.state.errorMsg}
+            </Alert>
+          )}
         </Modal.Body>
       </Modal>
     );
