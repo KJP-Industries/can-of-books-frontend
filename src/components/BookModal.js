@@ -62,7 +62,11 @@ class BookModal extends React.Component {
                 type="text"
                 defaultValue={selectedBook?.title}
                 placeholder="Enter title"
+                required
               />
+              <Form.Control.Feedback>
+                Please enter a title
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="bookDesc">
               <Form.Label>Description</Form.Label>
@@ -70,7 +74,11 @@ class BookModal extends React.Component {
                 type="text"
                 defaultValue={selectedBook?.description}
                 placeholder="Enter description"
+                required
               />
+              <Form.Control.Feedback>
+                Please enter a description
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="bookStatus">
               <Form.Label>Status</Form.Label>
@@ -78,7 +86,11 @@ class BookModal extends React.Component {
                 type="text"
                 defaultValue={selectedBook?.status}
                 placeholder="Enter status"
-              />
+                required
+              />{' '}
+              <Form.Control.Feedback>
+                Please enter a status
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Button variant="primary" type="submit">
