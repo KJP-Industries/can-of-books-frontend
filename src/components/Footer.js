@@ -5,7 +5,7 @@ class Footer extends React.Component {
   render() {
     return (
       <footer className="fixed-bottom">
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="px-3">
           <Navbar.Brand>Code Fellows</Navbar.Brand>
         </Navbar>
       </footer>

@@ -6,7 +6,7 @@ class Header extends React.Component {
   render() {
     return (
       <header className='sticky-top'>
-        <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+        <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark' className="px-3">
           <Navbar.Brand>My Favorite Books</Navbar.Brand>
           <NavItem>
             <Link to='/' className='nav-link text-light ms-4'>

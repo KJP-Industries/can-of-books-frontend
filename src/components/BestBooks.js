@@ -87,7 +87,7 @@ class BestBooks extends React.Component {
     return (
       <main className="h-100">
         <section>
-          <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
+          <h2 className="p-3">My Essential Lifelong Learning &amp; Formation Shelf</h2>
           {this.state.books.length > 0 ? (
             <Carousel wrap touch pause="hover" interval={SLIDE_INTERVAL}>
               {this.state.books.map((book) => (
