@@ -2,17 +2,8 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import Alert from 'react-bootstrap/Alert';
 
 class BookModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayError: false,
-      errorMsg: '',
-    };
-  }
-
   handleClose = () => {
     this.props.toggleModal();
   };
@@ -24,22 +15,13 @@ class BookModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({ displayError: false, apiError: '' });
-    try {
-      const form = e.target;
-      if (form.bookTitle.value) {
-        this.props.addBook({
-          title: form.bookTitle.value,
-          description: form.bookDesc.value,
-          status: form.bookStatus.value,
-        });
-        this.props.toggleModal();
-      } else {
-        throw new Error('Book title must not be blank.');
-      }
-    } catch (err) {
-      this.setState({ displayError: true, errorMsg: err.message });
-    }
+    const form = e.target;
+    this.props.addBook({
+      title: form.bookTitle.value,
+      description: form.bookDesc.value,
+      status: form.bookStatus.value,
+    });
+    this.handleClose();
   };
 
   render() {
@@ -108,11 +90,6 @@ class BookModal extends React.Component {
               Close
             </Button>
           </Form>
-          {this.state.displayError && (
-            <Alert key="1" variant="danger">
-              Error: {this.state.errorMsg}
-            </Alert>
-          )}
         </Modal.Body>
       </Modal>
     );
