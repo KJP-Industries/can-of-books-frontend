@@ -5,14 +5,13 @@ import Image from 'react-bootstrap/Image';
 export default class Book extends Component {
   render() {
     const {
-      idx,
       book: { title, description, status },
     } = this.props;
 
     return (
       <>
         <Image
-          src={`https://picsum.photos/1400/300?random=${idx}`}
+          src={`https://picsum.photos/seed/${title}/1400/300?blur=4`}
           className="w-100"
           fluid
         />
