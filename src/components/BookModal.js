@@ -80,21 +80,35 @@ class BookModal extends React.Component {
                 placeholder="Enter status"
               />
             </Form.Group>
-
-            <Button variant="primary" type="submit">
-              Add Book
-            </Button>
-            <Button
-              variant="danger"
-              type="button"
-              onClick={this.handleDelete}
-              hidden={!selectedBook}
-            >
-              Delete Book
-            </Button>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
+            <div className="row justify-content-between">
+              <div className="col">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="mt-5 me-2"
+                >
+                  Add Book
+                </Button>
+                <Button
+                  variant="secondary"
+                  onClick={handleClose}
+                  className="mt-5"
+                >
+                  Close
+                </Button>
+              </div>
+              <div className="col-md-auto">
+                <Button
+                  variant="danger"
+                  type="button"
+                  onClick={this.handleDelete}
+                  hidden={!selectedBook}
+                  className="mt-5"
+                >
+                  Delete Book
+                </Button>
+              </div>
+            </div>
           </Form>
           {this.state.displayError && (
             <Alert key="1" variant="danger">
