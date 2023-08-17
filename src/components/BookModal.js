@@ -63,13 +63,14 @@ class BookModal extends React.Component {
               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="bookStatus">
-              <Form.Label>Status</Form.Label>
+              <Form.Label>
+                Status
+              </Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={ selectedBook ? selectedBook.status : '' }
-                placeholder="Enter status"
-                required
-              />{' '}
+                defaultValue={ selectedBook?.status }
+                placeholder="Enter status" required
+              />
               <Form.Control.Feedback>
                 Please enter a status
               </Form.Control.Feedback>
@@ -77,17 +78,11 @@ class BookModal extends React.Component {
             <div className="row justify-content-between mt-5">
               <div className="col">
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   type="submit"
                   className="me-2"
                 >
-                  {this.props.priModalBtnTxt}
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={handleClose}
-                >
-                  Close
+                  { this.props.priModalBtnTxt }
                 </Button>
               </div>
               <div className="col-md-auto">

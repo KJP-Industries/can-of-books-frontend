@@ -53,6 +53,20 @@ class BestBooks extends React.Component {
       );
   };
 
+  updateBook = (updateBook) => {
+    const putUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
+    axios
+      .put(putUrl, updateBook)
+      .then((data) => {
+        this.setState({ books: [...this.state.books, data] });
+      })
+      .catch(() =>
+        this.setErrorMsg(
+          'There was an error adding your book. Please try again.'
+        )
+      );    
+  };
+
   deleteBook = (deleteBook) => {
     const deleteUrl = `${process.env.REACT_APP_SERVER_URL}/books/${deleteBook._id}`;
     axios
@@ -130,6 +144,7 @@ class BestBooks extends React.Component {
           toggleModal={this.toggleModal}
           selectedBook={this.state.selectedBook}
           addBook={this.addBook}
+          updateBook={this.updateBook}
           deleteBook={this.deleteBook}
         />
         <ToastContainer
