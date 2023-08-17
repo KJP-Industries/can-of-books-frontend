@@ -15,6 +15,16 @@ class BestBooks extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const url = `${process.env.REACT_APP_SERVER_URL}/books`;
+    axios
+      .get(url)
+      .then(({ data: books }) => {
+        this.setState({ books });
+      })
+      .catch((err) => console.error(err));
+  }
+
   selectBook = (selectedBook) => {
     this.setState({
       selectedBook,
@@ -51,16 +61,6 @@ class BestBooks extends React.Component {
       selectedBook: this.state.selectedBook ? null : this.state.selectedBook,
     });
   };
-
-  componentDidMount() {
-    const url = `${process.env.REACT_APP_SERVER_URL}/books`;
-    axios
-      .get(url)
-      .then(({ data: books }) => {
-        this.setState({ books });
-      })
-      .catch((err) => console.error(err));
-  }
 
   render() {
     return (
