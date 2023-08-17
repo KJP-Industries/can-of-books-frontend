@@ -52,7 +52,7 @@ class BestBooks extends React.Component {
   };
 
   deleteBook = (deleteBook) => {
-    const deleteUrl = `${process.env.REACT_APP_SERVER_URL}/books/${deleteBook.id}`;
+    const deleteUrl = `${process.env.REACT_APP_SERVER_URL}/books/${deleteBook._id}`;
     axios
       .delete(deleteUrl, deleteBook)
       .then(() => {
