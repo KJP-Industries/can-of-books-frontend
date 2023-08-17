@@ -3,7 +3,7 @@ import { Component } from 'react';
 class Profile extends Component {
   render() {
     return (
-      <>
+      <main className='h-100'>
         <p>KJP industries developers: Josh, Kyle and Peter </p>
         <p>Check out our projects at:</p>
         <p>
@@ -11,7 +11,7 @@ class Profile extends Component {
             {'https://github.com/orgs/KJP-Industries/repositories'}
           </a>
         </p>
-      </>
+      </main>
     );
   }
 }
