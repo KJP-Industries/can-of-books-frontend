@@ -17,7 +17,7 @@ class BookModal extends React.Component {
     e.preventDefault();
     const form = e.target;
     this.props.modalFunction({
-      title: form.bookTitle.value,
+      title: form.title.value,
       description: form.bookDesc.value,
       status: form.bookStatus.value,
     });
@@ -38,7 +38,7 @@ class BookModal extends React.Component {
               this.handleSubmit(e);
             }}
           >
-            <Form.Group className="mb-3" controlId="bookTitle">
+            <Form.Group className="mb-3" controlId="title">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
