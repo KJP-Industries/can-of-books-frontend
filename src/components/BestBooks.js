@@ -81,6 +81,7 @@ class BestBooks extends React.Component {
   };
 
   render = () => {
+    const SLIDE_INTERVAL = 5000;
     const TOAST_TIMEOUT = 5000;
 
     return (
@@ -88,7 +89,7 @@ class BestBooks extends React.Component {
         <section>
           <h2>My Essential Lifelong Learning &amp; Formation Shelf</h2>
           {this.state.books.length > 0 ? (
-            <Carousel wrap touch pause="hover" interval={5000}>
+            <Carousel wrap touch pause="hover" interval={SLIDE_INTERVAL}>
               {this.state.books.map((book) => (
                 <Carousel.Item
                   key={book._id}
