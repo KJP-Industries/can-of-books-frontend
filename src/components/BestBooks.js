@@ -14,6 +14,8 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       shouldShowModal: false,
+      modalTitle: '',
+      priModalBtnTxt: '',
       selectedBook: null,
       errorMsg: null,
     };
@@ -29,12 +31,12 @@ class BestBooks extends React.Component {
       .catch((err) => this.setErrorMsg(err.message));
   };
 
-  selectBook = (selectedBook) => {
-    this.setState({
+  selectBook = async (selectedBook) => {
+    await this.setState({
       selectedBook,
-      shouldShowModal: Boolean(selectedBook),
       errorMsg: null,
     });
+    this.toggleModal('update');
   };
 
   addBook = (newBook) => {
@@ -67,11 +69,23 @@ class BestBooks extends React.Component {
       );
   };
 
-  toggleModal = () => {
-    const { shouldShowModal } = this.state;
+  toggleModal = ( modalMode ) => {
+    const { shouldShowModal, selectedBook } = this.state;
+    let modalTitle, priModalBtnTxt = '';
+    let shouldUpdateBook = false;
+    if ( modalMode === 'update' ) {
+      modalTitle = 'Update Book';
+      priModalBtnTxt = 'Update';
+      shouldUpdateBook = true;
+    } else {
+      modalTitle = 'Add Book';
+      priModalBtnTxt = 'Add';
+    }
     this.setState({
       shouldShowModal: !shouldShowModal,
-      selectedBook: this.state.selectedBook ? null : this.state.selectedBook,
+      modalTitle: modalTitle,
+      priModalBtnTxt: priModalBtnTxt,
+      selectedBook: shouldUpdateBook ? selectedBook : null,
       errorMsg: null,
     });
   };
@@ -111,7 +125,8 @@ class BestBooks extends React.Component {
         </section>
         <BookModal
           shouldShowModal={this.state.shouldShowModal}
-          modalTitle={'Add Book'}
+          modalTitle={this.state.modalTitle}
+          priModalBtnTxt={this.state.priModalBtnTxt}
           toggleModal={this.toggleModal}
           selectedBook={this.state.selectedBook}
           addBook={this.addBook}

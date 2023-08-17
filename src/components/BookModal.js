@@ -66,7 +66,7 @@ class BookModal extends React.Component {
               <Form.Label>Status</Form.Label>
               <Form.Control
                 type="text"
-                defaultValue={selectedBook?.status}
+                defaultValue={ selectedBook ? selectedBook.status : '' }
                 placeholder="Enter status"
                 required
               />{' '}
@@ -81,7 +81,7 @@ class BookModal extends React.Component {
                   type="submit"
                   className="me-2"
                 >
-                  Add Book
+                  {this.props.priModalBtnTxt}
                 </Button>
                 <Button
                   variant="secondary"
@@ -95,7 +95,7 @@ class BookModal extends React.Component {
                   variant="danger"
                   type="button"
                   onClick={this.handleDelete}
-                  hidden={!selectedBook}
+                  hidden={!this.props.selectedBook}
                 >
                   Delete Book
                 </Button>
