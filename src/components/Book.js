@@ -8,7 +8,7 @@ export default class Book extends Component {
       idx,
       book: { title, description, status },
     } = this.props;
-    console.log('');
+
     return (
       <>
         <Image
