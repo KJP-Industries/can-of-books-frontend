@@ -14,9 +14,6 @@ class BestBooks extends React.Component {
     this.state = {
       books: [],
       shouldShowModal: false,
-      modalTitle: '',
-      priModalBtnTxt: '',
-      modalFunction: null,
       selectedBook: null,
       errorMsg: null,
     };
@@ -32,20 +29,25 @@ class BestBooks extends React.Component {
       .catch((err) => this.setErrorMsg(err.message));
   };
 
-  selectBook = async (selectedBook) => {
-    await this.setState({
+  selectBook = (selectedBook) => {
+    this.setState({
       selectedBook,
+      shouldShowModal: Boolean(selectedBook),
       errorMsg: null,
     });
-    this.toggleModal('update');
   };
 
   addBook = (newBook) => {
     const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
     axios
       .post(postUrl, newBook)
-      .then(({data}) => {
-        this.setState({ books: [...this.state.books, data] });
+      .then(({ data }) => {
+        this.setState((prevState) => ({
+          books: [
+            ...prevState.books.filter((book) => book._id !== data._id),
+            data,
+          ],
+        }));
       })
       .catch(() =>
         this.setErrorMsg(
@@ -54,19 +56,17 @@ class BestBooks extends React.Component {
       );
   };
 
-  removeBookFromState = (id) => {
-    const oldBooks = [...this.state.books];
-    return oldBooks.filter((book) => book._id !== id);
-  };
-
   updateBook = (updateBook) => {
     const putUrl = `${process.env.REACT_APP_SERVER_URL}/books/${updateBook.id}`;
     axios
       .put(putUrl, updateBook)
-      .then((data) => {
-        const updatedBook = ({data});
-        const cleanBooks = this.removeBookFromState(updatedBook._id);
-        this.setState({ books: [...cleanBooks, updatedBook] });
+      .then(({ data }) => {
+        this.setState((prevState) => {
+          const books = [...prevState.books];
+          const updateIndex = books.findIndex((book) => book._id === data._id);
+          books[updateIndex] = data;
+          return { books };
+        });
       })
       .catch(() =>
         this.setErrorMsg(
@@ -80,8 +80,9 @@ class BestBooks extends React.Component {
     axios
       .delete(deleteUrl, deleteBook)
       .then(() => {
-        const cleanBooks = this.removeBookFromState(deleteBook._id);
-        this.setState({ books: [...cleanBooks] });
+        this.setState((prevState) => ({
+          books: prevState.books.filter((book) => book._id !== deleteBook._id),
+        }));
       })
       .catch(() =>
         this.setErrorMsg(
@@ -90,26 +91,11 @@ class BestBooks extends React.Component {
       );
   };
 
-  toggleModal = ( modalMode ) => {
-    const { shouldShowModal, selectedBook } = this.state;
-    let modalTitle, priModalBtnTxt, modalFunction = null;
-    let shouldUpdateBook = false;
-    if ( modalMode === 'update' ) {
-      modalTitle = 'Update Book';
-      priModalBtnTxt = 'Update';
-      modalFunction = this.updateBook;
-      shouldUpdateBook = true;
-    } else {
-      modalTitle = 'Add Book';
-      priModalBtnTxt = 'Add';
-      modalFunction = this.addBook;
-    }
+  toggleModal = () => {
+    const { shouldShowModal } = this.state;
     this.setState({
       shouldShowModal: !shouldShowModal,
-      modalTitle: modalTitle,
-      priModalBtnTxt: priModalBtnTxt,
-      modalFunction: modalFunction,
-      selectedBook: shouldUpdateBook ? selectedBook : null,
+      selectedBook: this.state.selectedBook ? null : this.state.selectedBook,
       errorMsg: null,
     });
   };
@@ -119,13 +105,30 @@ class BestBooks extends React.Component {
   };
 
   render = () => {
+    const strings = {
+      pageTitle: `My Essential Lifelong Learning ${String.fromCharCode(
+        38
+      )} Formation Shelf`,
+      noBooksMessage: 'No Books Found :(',
+      modal: {
+        title: {
+          add: 'Add Book',
+          update: 'Update Book',
+        },
+        button: {
+          add: 'Add',
+          update: 'Update',
+        },
+      },
+    };
     const SLIDE_INTERVAL = 5000;
     const TOAST_TIMEOUT = 5000;
+    const modalMode = this.state.selectedBook ? 'update' : 'add';
 
     return (
       <main className="h-100">
         <section>
-          <h2 className="p-3">My Essential Lifelong Learning &amp; Formation Shelf</h2>
+          <h2 className="p-3">{strings.pageTitle}</h2>
           {this.state.books.length > 0 ? (
             <Carousel wrap touch pause="hover" interval={SLIDE_INTERVAL}>
               {this.state.books.map((book) => (
@@ -138,7 +141,7 @@ class BestBooks extends React.Component {
               ))}
             </Carousel>
           ) : (
-            <h3>{'No Books Found :('}</h3>
+            <h3>{strings.noBooksMessage}</h3>
           )}
           <Button
             className="position-relative start-50 translate-middle w-25"
@@ -149,11 +152,12 @@ class BestBooks extends React.Component {
         </section>
         <BookModal
           shouldShowModal={this.state.shouldShowModal}
-          modalTitle={this.state.modalTitle}
-          priModalBtnTxt={this.state.priModalBtnTxt}
           toggleModal={this.toggleModal}
+          show={this.shouldShowModal}
+          title={strings.modal.title[modalMode]}
+          primaryBtnTxt={strings.modal.button[modalMode]}
           selectedBook={this.state.selectedBook}
-          modalFunction={this.state.modalFunction}
+          submitFunction={this[`${modalMode}Book`]}
           deleteBook={this.deleteBook}
         />
         <ToastContainer
