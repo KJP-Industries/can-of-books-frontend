@@ -15,13 +15,17 @@ class BookModal extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    const { selectedBook } = this.props;
     const form = e.target;
-    this.props.modalFunction({
+    let bookObj = {
       title: form.title.value,
       description: form.bookDesc.value,
-      status: form.bookStatus.value,
-      id: this.props.selectedBook._id || null
-    });
+      status: form.bookStatus.value
+    };
+    if ( selectedBook ) {
+      bookObj.id = selectedBook._id;
+    }
+    this.props.modalFunction(bookObj);
     this.handleClose();
   };
 

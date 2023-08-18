@@ -44,9 +44,8 @@ class BestBooks extends React.Component {
     const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
     axios
       .post(postUrl, newBook)
-      .then((data) => {
-        console.log(data);
-        this.setState({ books: [...this.state.books, ({data})] });
+      .then(({data}) => {
+        this.setState({ books: [...this.state.books, data] });
       })
       .catch(() =>
         this.setErrorMsg(
@@ -56,12 +55,11 @@ class BestBooks extends React.Component {
   };
 
   removeBookFromState = (id) => {
-    const oldBooks = this.state.books;
+    const oldBooks = [...this.state.books];
     return oldBooks.filter((book) => book._id !== id);
   };
 
   updateBook = (updateBook) => {
-    console.log(updateBook);
     const putUrl = `${process.env.REACT_APP_SERVER_URL}/books/${updateBook.id}`;
     axios
       .put(putUrl, updateBook)
