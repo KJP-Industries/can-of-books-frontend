@@ -20,6 +20,7 @@ class BookModal extends React.Component {
       title: form.title.value,
       description: form.bookDesc.value,
       status: form.bookStatus.value,
+      id: this.props.selectedBook._id || null
     });
     this.handleClose();
   };

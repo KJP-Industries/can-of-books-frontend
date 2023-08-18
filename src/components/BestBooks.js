@@ -61,7 +61,8 @@ class BestBooks extends React.Component {
   };
 
   updateBook = (updateBook) => {
-    const putUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
+    console.log(updateBook);
+    const putUrl = `${process.env.REACT_APP_SERVER_URL}/books/${updateBook.id}`;
     axios
       .put(putUrl, updateBook)
       .then((data) => {
