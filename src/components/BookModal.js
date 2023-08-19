@@ -4,33 +4,38 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 class BookModal extends React.Component {
-  handleClose = () => {
-    this.props.toggleModal();
-  };
-
   handleDelete = () => {
     this.props.deleteBook(this.props.selectedBook);
     this.handleClose();
   };
 
+  handleClose = () => {
+    this.props.toggleModal();
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
+    const { selectedBook } = this.props;
     const form = e.target;
-    this.props.addBook({
-      title: form.bookTitle.value,
+    let bookObj = {
+      title: form.title.value,
       description: form.bookDesc.value,
       status: form.bookStatus.value,
-    });
+    };
+    if (selectedBook) {
+      bookObj.id = selectedBook._id;
+    }
+    this.props.submitFunction(bookObj);
     this.handleClose();
   };
 
   render() {
-    const { shouldShowModal, modalTitle, selectedBook } = this.props;
+    const { shouldShowModal, title, primaryBtnTxt, selectedBook } = this.props;
     const { handleClose } = this;
     return (
       <Modal show={shouldShowModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{modalTitle}</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -38,7 +43,7 @@ class BookModal extends React.Component {
               this.handleSubmit(e);
             }}
           >
-            <Form.Group className="mb-3" controlId="bookTitle">
+            <Form.Group className="mb-3" controlId="title">
               <Form.Label>Title</Form.Label>
               <Form.Control
                 type="text"
@@ -69,25 +74,15 @@ class BookModal extends React.Component {
                 defaultValue={selectedBook?.status}
                 placeholder="Enter status"
                 required
-              />{' '}
+              />
               <Form.Control.Feedback>
                 Please enter a status
               </Form.Control.Feedback>
             </Form.Group>
             <div className="row justify-content-between mt-5">
               <div className="col">
-                <Button
-                  variant="primary"
-                  type="submit"
-                  className="me-2"
-                >
-                  Add Book
-                </Button>
-                <Button
-                  variant="secondary"
-                  onClick={handleClose}
-                >
-                  Close
+                <Button variant="secondary" type="submit" className="me-2">
+                  {primaryBtnTxt}
                 </Button>
               </div>
               <div className="col-md-auto">
