@@ -1,9 +1,11 @@
 import React from 'react';
-import { Navbar, NavItem } from 'react-bootstrap';
+
 import { Link } from 'react-router-dom';
+import { Navbar, NavItem } from 'react-bootstrap';
+import AuthButtons from './AuthButtons';
+
 import { withAuth0 } from '@auth0/auth0-react';
-import LoginButton from './LoginButton';
-import LogoutButton from './LogoutButton';
+
 class Header extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth0;
@@ -32,8 +34,7 @@ class Header extends React.Component {
               Profile
             </Link>
           </NavItem>
-
-          {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+          <AuthButtons isAuthenticated={isAuthenticated} />
         </Navbar>
       </header>
     );
