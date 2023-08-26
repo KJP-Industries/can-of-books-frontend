@@ -31,16 +31,6 @@ class BestBooks extends React.Component {
       .catch((err) => console.error(err));
   };
 
-  getBooks = () => {
-    const url = `${process.env.REACT_APP_SERVER_URL}/books`;
-    axios
-      .get(url)
-      .then(({ data: books }) => {
-        this.setState({ books });
-      })
-      .catch((err) => this.setErrorMsg(err.message));
-  };
-
   selectBook = (selectedBook) => {
     this.setState({
       selectedBook,
@@ -49,10 +39,28 @@ class BestBooks extends React.Component {
     });
   };
 
-  addBook = (newBook) => {
-    const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
+  getBooks = async () => {
+    const getUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
+    const jwt = await this.getToken();
+    const config = {
+      headers: { Authorization: `Bearer ${jwt}` },
+    };
     axios
-      .post(postUrl, newBook)
+      .get(getUrl, config)
+      .then(({ data: books }) => {
+        this.setState({ books });
+      })
+      .catch((err) => this.setErrorMsg(err.message));
+  };
+
+  addBook = async (newBook) => {
+    const postUrl = `${process.env.REACT_APP_SERVER_URL}/books`;
+    const jwt = await this.getToken();
+    const config = {
+      headers: { Authorization: `Bearer ${jwt}` },
+    };
+    axios
+      .post(postUrl, newBook, config)
       .then(({ data }) => {
         this.setState((prevState) => ({
           books: [
@@ -68,10 +76,14 @@ class BestBooks extends React.Component {
       );
   };
 
-  updateBook = (updateBook) => {
+  updateBook = async (updateBook) => {
     const putUrl = `${process.env.REACT_APP_SERVER_URL}/books/${updateBook.id}`;
+    const jwt = await this.getToken();
+    const config = {
+      headers: { Authorization: `Bearer ${jwt}` },
+    };
     axios
-      .put(putUrl, updateBook)
+      .put(putUrl, updateBook, config)
       .then(({ data }) => {
         this.setState((prevState) => {
           const books = [...prevState.books];
@@ -87,10 +99,14 @@ class BestBooks extends React.Component {
       );
   };
 
-  deleteBook = (deleteBook) => {
+  deleteBook = async (deleteBook) => {
     const deleteUrl = `${process.env.REACT_APP_SERVER_URL}/books/${deleteBook._id}`;
+    const jwt = await this.getToken();
+    const config = {
+      headers: { Authorization: `Bearer ${jwt}` },
+    };
     axios
-      .delete(deleteUrl, deleteBook)
+      .delete(deleteUrl, config)
       .then(() => {
         this.setState((prevState) => ({
           books: prevState.books.filter((book) => book._id !== deleteBook._id),
