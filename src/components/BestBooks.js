@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { withAuth0 } from '@auth0/auth0-react';
 
 import Carousel from 'react-bootstrap/Carousel';
 import ToastContainer from 'react-bootstrap/ToastContainer';
@@ -20,6 +21,17 @@ class BestBooks extends React.Component {
   }
 
   componentDidMount = () => {
+    this.getBooks();
+  };
+
+  getToken = () => {
+    return this.props.auth0
+      .getIdTokenClaims()
+      .then((res) => res.__raw)
+      .catch((err) => console.error(err));
+  };
+
+  getBooks = () => {
     const url = `${process.env.REACT_APP_SERVER_URL}/books`;
     axios
       .get(url)
@@ -182,4 +194,4 @@ class BestBooks extends React.Component {
   };
 }
 
-export default BestBooks;
+export default withAuth0(BestBooks);
