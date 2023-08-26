@@ -14,7 +14,7 @@ class Header extends React.Component {
           expand="lg"
           bg="dark"
           variant="dark"
-          className="px-3"
+          className="d-flex justify-content-between px-3"
         >
           <Navbar.Brand>My Favorite Books</Navbar.Brand>
           <NavItem>
@@ -22,7 +22,7 @@ class Header extends React.Component {
               Home
             </Link>
           </NavItem>
-          <NavItem>
+          <NavItem className="flex-grow-1">
             <Link to="/about" className="nav-link text-light ms-4">
               About
             </Link>
