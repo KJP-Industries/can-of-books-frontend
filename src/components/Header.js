@@ -22,9 +22,14 @@ class Header extends React.Component {
               Home
             </Link>
           </NavItem>
-          <NavItem className="flex-grow-1">
+          <NavItem>
             <Link to="/about" className="nav-link text-light ms-4">
               About
+            </Link>
+          </NavItem>
+          <NavItem className="flex-grow-1">
+            <Link to="/profile" className="nav-link text-light ms-4">
+              Profile
             </Link>
           </NavItem>
 

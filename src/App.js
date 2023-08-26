@@ -3,15 +3,15 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import BestBooks from './components/BestBooks';
 import About from './components/About';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Profile from './components/Profile';
 import LoggedOut from './components/LoggedOut';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { withAuth0 } from '@auth0/auth0-react';
 
 class App extends React.Component {
   render() {
     const { isAuthenticated } = this.props.auth0;
-    console.log({ isAuthenticated });
     return (
       <>
         <Router>
@@ -25,6 +25,10 @@ class App extends React.Component {
             <Route
               path="/about"
               element={isAuthenticated ? <About /> : <LoggedOut />}
+            />
+            <Route
+              path="/profile"
+              element={isAuthenticated ? <Profile /> : <LoggedOut />}
             />
           </Routes>
           <Footer />
